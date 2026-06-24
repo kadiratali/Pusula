@@ -1,38 +1,38 @@
 # 🧭 Pusula — Test Management
 
-TestRail benzeri, test senaryolarını yönetmek için geliştirilmiş web uygulaması.
+A TestRail-inspired web application for managing test scenarios and cases.
 
-## Teknolojiler
+## Tech Stack
 
-| Katman | Teknoloji |
-|--------|-----------|
+| Layer | Technology |
+|-------|------------|
 | Frontend | React 19, Vite, Ant Design 5 |
 | Backend | Node.js, Express |
-| Veritabanı | Microsoft SQL Server |
+| Database | Microsoft SQL Server |
 
-## Özellikler
+## Features
 
-- **Proje Yönetimi** — Proje oluşturma, düzenleme ve silme
-- **Test Senaryoları** — Başlık, açıklama, ön koşul, öncelik, tip ve durum alanları
-- **Adım Editörü** — Aksiyon ve beklenen sonuç içeren, sıralı test adımları
-- **Filtreleme** — Öncelik, tip ve duruma göre filtreleme; başlık araması
-- **İstatistikler** — Proje bazında aktif/taslak/geçersiz senaryo sayıları
+- **Project Management** — Create, edit and delete projects
+- **Test Cases** — Title, description, preconditions, priority, type and status fields
+- **Step Editor** — Ordered test steps with action and expected result columns
+- **Filtering** — Filter by priority, type and status; search by title
+- **Statistics** — Per-project counts of active / draft / deprecated cases
 
-## Kurulum
+## Getting Started
 
-### Gereksinimler
+### Prerequisites
 
 - Node.js 18+
-- Microsoft SQL Server (ya da Docker)
+- Microsoft SQL Server (or Docker)
 
-### 1. Repoyu klonlayın
+### 1. Clone the repository
 
 ```bash
 git clone git@github.com:kadiratali/Pusula.git
 cd Pusula
 ```
 
-### 2. Veritabanını başlatın (Docker ile)
+### 2. Start the database (Docker)
 
 ```bash
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pusula123!" \
@@ -40,14 +40,14 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pusula123!" \
   -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
-### 3. Server kurulumu
+### 3. Server setup
 
 ```bash
 cd server
 npm install
 ```
 
-`.env` dosyası oluşturun:
+Create a `.env` file:
 
 ```env
 DB_SERVER=localhost
@@ -58,19 +58,19 @@ DB_PASSWORD=Pusula123!
 PORT=3001
 ```
 
-Tabloları oluşturun:
+Create the tables:
 
 ```bash
 npm run init-db
 ```
 
-Sunucuyu başlatın:
+Start the server:
 
 ```bash
 npm run dev
 ```
 
-### 4. Client kurulumu
+### 4. Client setup
 
 ```bash
 cd client
@@ -78,41 +78,41 @@ npm install
 npm run dev
 ```
 
-Uygulama **http://localhost:5173** adresinde çalışır.
+The app runs at **http://localhost:5173**.
 
-## Proje Yapısı
+## Project Structure
 
 ```
 Pusula/
 ├── server/
 │   └── src/
 │       ├── config/
-│       │   ├── db.js          # MSSQL bağlantısı
-│       │   └── initDb.js      # Tablo oluşturma scripti
+│       │   ├── db.js          # MSSQL connection pool
+│       │   └── initDb.js      # Table creation script
 │       ├── routes/
-│       │   ├── projects.js    # Proje API'leri
-│       │   └── testCases.js   # Senaryo ve adım API'leri
+│       │   ├── projects.js    # Project endpoints
+│       │   └── testCases.js   # Test case & step endpoints
 │       └── index.js
 └── client/
     └── src/
-        ├── api/               # Axios endpoint fonksiyonları
+        ├── api/               # Axios endpoint helpers
         └── pages/
-            ├── Projects.jsx        # Proje listesi
-            ├── ProjectDetail.jsx   # Senaryo listesi
-            └── TestCaseDetail.jsx  # Senaryo detay & adım editörü
+            ├── Projects.jsx        # Project list
+            ├── ProjectDetail.jsx   # Test case list
+            └── TestCaseDetail.jsx  # Case detail & step editor
 ```
 
-## API Endpointleri
+## API Reference
 
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/projects` | Tüm projeler |
-| POST | `/api/projects` | Proje oluştur |
-| PUT | `/api/projects/:id` | Proje güncelle |
-| DELETE | `/api/projects/:id` | Proje sil |
-| GET | `/api/projects/:pid/cases` | Projedeki senaryolar |
-| POST | `/api/projects/:pid/cases` | Senaryo oluştur |
-| GET | `/api/cases/:id` | Senaryo + adımlar |
-| PUT | `/api/cases/:id` | Senaryo güncelle |
-| DELETE | `/api/cases/:id` | Senaryo sil |
-| PUT | `/api/cases/:id/steps` | Adımları toplu kaydet |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/projects` | List all projects |
+| POST | `/api/projects` | Create a project |
+| PUT | `/api/projects/:id` | Update a project |
+| DELETE | `/api/projects/:id` | Delete a project |
+| GET | `/api/projects/:pid/cases` | List cases for a project |
+| POST | `/api/projects/:pid/cases` | Create a test case |
+| GET | `/api/cases/:id` | Get case with steps |
+| PUT | `/api/cases/:id` | Update a test case |
+| DELETE | `/api/cases/:id` | Delete a test case |
+| PUT | `/api/cases/:id/steps` | Bulk save steps |
